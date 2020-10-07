@@ -1,0 +1,16 @@
+Stack Overflow
+Requerimientos Funcionales
+TDAs 
+
+
+Requerimientos No Funcionales
+Autoevaluacion 1
+Implementacion Scheme 1
+Dr Racket 6.11 1
+Funciones estandar 1
+No usar define dentro de otras funciones 
+Funciones comentadas 
+Respetar Entrada y Salida 
+Estructurar en archivos separados 
+Historiañ de TRabajo en Git 
+3 Ejemplos 
