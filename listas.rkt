@@ -106,15 +106,24 @@
 ;Funciona que retorna la cantidad de veces que se repite el mismo elemento en una lista
 ;Entrada: lista, elemento a comparar
 ;Salida: Numero
-(define (numeroElementosRepetidos lista elementoAComparar contador)
-    (if (= (car lista) null)
-        contador
-        (if (equal? (car lista) elementoAComparar)
-            (numeroElementosRepetidos (cdr lista) elementoAComparar (+ contador 1)
-            (numeroElementosRepetidos (cdr lista) elementoAComparar contador)
- 
-        )
 
+(define (elementosRepetidos lista elementoAComparar)
+    (numeroElementosRepetidos lista elementoAComparar 0)
+)
+
+(define (numeroElementosRepetidos lista elementoAComparar contador)
+    (if (> (contadorLista lista) 1)
+        (if (equal? (car lista) elementoAComparar)
+            (numeroElementosRepetidos (cdr lista) elementoAComparar (+ contador 1))
+            (numeroElementosRepetidos (cdr lista) elementoAComparar contador)
+
+        )
+        (if (equal? (car lista) elementoAComparar)
+            (+ contador 1)
+            contador
+
+        )   
     )
 
 )
+ 
