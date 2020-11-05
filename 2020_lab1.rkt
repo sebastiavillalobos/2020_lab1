@@ -4,6 +4,8 @@
 
 ; TDA “stack” que corresponde al contenedor de preguntas,  respuestas, usuarios y nombre del usuario con sesión activa.
 
+
+
 ;los usuarios: nombre de usuario, correo usuario, reputacion, numero preguntas realizadas, numero  respuestas realizadas
 
 ;las preguntas: además de información relativa a fecha de publicación, ID único incremental (se va generando un correlativo

@@ -2,6 +2,15 @@
 
 (provide (all-defined-out))
 
+; TDA = 
+;Representacion
+;Constructor
+;Pertenencia
+;Selectores
+;Modificadores
+;Otras funciones
+
+
 ; TDA Lista
 
 ; Representación lista: Una lista será representada por un conjunto de elementos dentro de () con n elementos, pudiendo ser una lista de elementos vacios.
