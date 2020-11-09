@@ -1,5 +1,5 @@
 #lang racket
-(provide (all-defined-out))
+
 (require "TDA_Lista.rkt")
 
 ; TDA = Etiquetas
@@ -62,15 +62,15 @@
 ; Modificadores
 
 (define (modTag1 N etiqueta)
-    (crearEtiquetas N (getTag2 etiqueta) (getTag3 etiqueta))
+    (crearEtiquetas N tag2 tag3)
 )
 
 (define (modTag2 N etiqueta)
-    (crearEtiquetas (getTag1 etiqueta) N (getTag3 etiqueta))
+    (crearEtiquetas tag1 N tag3)
 )
 
 (define (modTag3 N etiqueta)
-    (crearEtiquetas (getTag1 etiqueta) (getTag2 etiqueta) N)
+    (crearEtiquetas tag1 tag2 N)
 )
 
 ; Otras funciones

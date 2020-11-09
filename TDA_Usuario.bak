@@ -23,36 +23,36 @@
 ; Constructor
 
 (define (crearUsuario id_usuario nombre password reputacion estado)
-   (if (and (and (and (esIdUsuario2 id_usuario) (esNombre2 nombre))(and (esPassword2 password)(esReputacion2 reputacion)))(esEstado2 estado))
+   (if (and (and (and (esIdUsuario id_usuario) (esNombre nombre))(and (esPassword password)(esReputacion reputacion)))(esEstado estado))
     (list id_usuario nombre password reputacion estado)
     "No es un usuario valido"
    )
 )
 
 ; Pertenencia
-(define (esIdUsuario2 N)
+(define (esIdUsuario id)
     (and (number? N) (> N 0))
     )
 
-(define (esNombre2 nombre)
+(define (esNombre nombre)
     (if  (and (not (null? nombre))(string? nombre))
     #t
     #f    
     )
 )
 
-(define (esPassword2 password)
+(define (esPassword password)
     (if  (and (not (null? password))(string? password))
     #t
     #f    
     )
 )
 
-(define (esReputacion2 reputacion)
+(define (esReputacion reputacion)
     (number? reputacion) 
 )
 
-(define (esEstado2 N)
+(define (esEstado N)
 (and (number? N) (or (= N 0) (= N 1)))
 )
 
@@ -76,7 +76,7 @@
 
 ; Modificadores
 
-(define (modID2 N usuario)
+(define (modID N usuario)
 (crearUsuario N (getUsuario usuario) (getPassword usuario) (getReputacion usuario))
 )
 (define (modUsuario N usuario)

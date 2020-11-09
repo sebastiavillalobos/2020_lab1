@@ -86,35 +86,16 @@
 ;Funciones sobre TDA
 
 ; Funcion que recorre la lista y los compara con un elemento dado y si existe, retorna verdadero
-(define (existeElemento lista elemento)
-  (buscadorElementos lista elemento)
-)
 
-#|
-; N es el contador, parte en 1
-(define (buscaElemento lista elementoAComparar N)
+(define (buscaElemento lista elementoAComparar N )
   (if (equal? (getElemento lista N) elementoAComparar)
       #t
       (if (> (contadorLista lista) 0)
-      (buscaElemento (cdr lista) elementoAComparar N )  
+      (buscaElemento (cdr lista) elementoAComparar (+ N 1) )  
       #f
       )
   )
-)
-|#
 
-(define (buscadorElementos lista elemento)
-  (if (> (contadorLista lista) 1)
-    (if (equal? (car lista) elemento)
-    #t
-    (buscadorElementos (cdr lista) elemento)
-    )
-    (if (equal? (car lista) elemento)
-    #t
-    #f
-   )
-  )
-)
 
 ;Contador de elementos de la lista
 ;Entrada: lista de elementos
@@ -155,14 +136,3 @@
 
 )
  
- ; Funcion que hace una lista con todos los elementos de una lista de una misma posicion
-
- (define (listaIguales lista posicion)
-  (if (null? (cdr lista))
-    (list (getElemento (car lista) posicion))
-    (cons (getElemento (car lista) posicion) (listaIguales (cdr lista) posicion))
-  )
- )
-
-
-

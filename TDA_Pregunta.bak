@@ -18,46 +18,27 @@
 ; Respuestas: Una lista representada en el TDA Respuestas
 
 ; Ejemplo de una pregunta representada por una lista.
-; (1 202011101930 "Sebastian Villalobos" 14 3 20 1 0 500 "dios existe?" (list "dios" "religion" "extraterrestres") (list "respuesta1" "respuesta2" "respuesta3"))
+; (1 202011101930 "Sebastian Villalobos" 14 3 20 1 0 500 "dios existe?" (dios religion extraterrestres) (respuesta1 respuesta2 respuesta3))
 
 
 ;Constructor
 
 (define (crearPregunta id_pregunta fecha autor votosFavor votosContra recompensa estado reportes visualizaciones laPregunta etiqueta respuesta)
-  (if (esIdPregunta id_pregunta)
-    (if (esFecha fecha)
-        (if (esAutor autor)
-            (if (esVoto1 votosFavor)
-                (if(esVoto1 votosContra)
-                    (if(esRecompensa recompensa)
-                        (if (esEstado estado)
-                            (if (esReporte reportes)
-                                (if (esVisualizacion visualizaciones)
-                                    (if(esLaPregunta laPregunta)
-                                      (list id_pregunta fecha autor votosFavor votosContra recompensa estado reportes visualizaciones laPregunta etiqueta respuesta)
-                                      "No es una pregunta valida"  
-                                    )
-                                    "No es una pregunta valida"
-                                )
-                                "No es una pregunta valida"
-                            )
-                            "No es una pregunta valida"
-                        )
-                        "No es una pregunta valida"
-                    )
-                    "No es una pregunta valida"
-                )
-                "No es una pregunta valida"
-            )
-            "No es una pregunta valida"
-        )
+  (if ((and(and(and(and (esIdPregunta id_pregunta) (esFecha fecha)) (and (esAutor autor) (esVoto votosFavor)))(and(and (esVoto votosContra)(esRecompensa recompensa))
+    (and(esEstado estado)(esReporte reportes))))(esVisualizacion visualizaciones)))
+        (list id_pregunta fecha autor votosFavor votosContra recompensa estado reportes visualizaciones laPregunta etiqueta respuesta)
         "No es una pregunta valida"
     )
-    "No es una pregunta valida"
   )
-  )
-
 ;Pertenencia
+
+(define (esPregunta pregunta)
+(if (and(and(and(and (esIdPregunta id_pregunta) (esFecha fecha)) (and (esAutor autor) (esVoto votosFavor)))(and(and (esVoto votosContra)(esRecompensa recompensa))
+    (and(esEstado estado)(esReporte reportes))))(esVisualizacion visualizaciones))
+    #t
+    #f
+    )
+)
 
 (define (esIdPregunta N)
     (and (number? N) (> N 0))
@@ -68,15 +49,15 @@
     )
 
 (define (esAutor N)
-    (and (not (null? N))(string? N))
+    (and (not (null? tag))(string? tag))
     )
 
-(define (esVoto1 N)
+(define (esVoto N)
     (and (number? N) (> N 0))
     )
 
 (define (esRecompensa N)
-    (and (number? N) (and (> N 0) (< N 5000)))       
+    (and (number? N) (and (> N 0) (< N 50)))       
     )
 
 (define (esEstado N)
@@ -84,7 +65,7 @@
 )
 
 (define (esReporte N)
-    (number? N)
+    (and (number? N) (> N 0))
     )
 
 (define (esVisualizacion N)
@@ -92,14 +73,16 @@
     )
 
 (define (esLaPregunta N)
-   (and (not (null? N))(string? N))
+   (and (not (null? tag))(string? tag))
     )
 
 
 ;Selectores
 
 (define (getIdpregunta N)
+    (if (esIdPregunta N)
     (car N)
+    null)
 )
 
 (define (getFecha N)
@@ -212,24 +195,4 @@
 )
 
 ;Otras funciones
-
-;Funcion que retorna la posicion de la pregunta en la lista de preguntas segun el ID de pregunta de una lista de preguntas
-;contador parte en 1
-
-(define (laPregunta preguntas idpregunta)
-    (getPreguntaPorIDaux preguntas idpregunta 1)
-)
-
-(define (getPreguntaPorIDaux preguntas id contador)
-    (if (> (contadorLista preguntas) 1)
-        (if (equal? (getIdpregunta (car preguntas)) id)
-        contador
-        (getPreguntaPorIDaux (cdr preguntas) id (+ contador 1))
-        )
-        (if (equal? (getIdpregunta (car preguntas)) id)
-        contador
-        "No se encuentra el ID buscado"
-    )
-)
-)
 

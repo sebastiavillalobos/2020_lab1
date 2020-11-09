@@ -1,0 +1,44 @@
+#lang racket
+
+(require "TDA_Lista.rkt" "TDA_Pregunta.rkt" "TDA_Respuesta.rkt" "TDA_Etiqueta.rkt" "TDA_Usuario.rkt" )
+
+; TDA = Stack
+
+;Representacion
+
+;El stack está representado por una lista compuesta por una lista de preguntas, que representa todas las preguntas
+;realizadas en la plataforma stack, con sus respectivas etiquetas y respuestas, los usuarios son reppresentados por una lista,
+;con todos sus atributos y estado.
+
+;Dominio: preguntas, usuarios
+;Recorrido: stack
+
+;preguntas: lista (TDA pregunta)
+;usuarios: lista (TDA usuario)
+
+
+; Constructor
+(define (crearStack preguntas usuarios)
+    (if (and (sonPreguntas pregunta)(sonUsuarios usuarios))
+        (list preguntas usuarios)
+        "No es un stack valido"
+    )
+)
+
+; Pertenencia
+(define (sonPreguntas preguntas)
+    (list? preguntas)
+)
+
+(define (sonUsuarios usuarios)
+    (list? usuarios)
+)
+
+; Selectores
+(define (getPreguntas stack)
+(car stack)
+)
+
+(define (getUsuarios stack)
+(car (cdr stack))
+)
