@@ -1,20 +1,24 @@
 #lang racket
 
-(require "tdalista.rkt")
+(require "TDA_Lista.rkt")
 
 ; TDA = Etiquetas
 
 ;Representacion
 
+; Las etiquetas son representadas con una lista de elementos, que representan los temas tratados en la pregunta, 
+; para facilitar la busqueda, en esta representación las etiquetas serán 3 por pregunta.
+; no se pueden agregar más etiquetas, solo modificar una menos representativa por una mejor.
+
+;Dominio: 3 strings, tag1, tag2, tag3
+;Recorrido: Una Etiqueta, representada por 3 strings
 
 ; Tag1: un string etiqueta
 ; Tag2: un string etiqueta
 ; Tag3: un string etiqueta
 
 
-; Las etiquetas son representadas con una lista de elementos, que representan los temas tratados en la pregunta, 
-; para facilitar la busqueda, en esta representación las etiquetas serán 3 por pregunta.
-; no se pueden agregar más etiquetas, solo modificar una menos representativa por una mejor.
+
 
 ; Constructor
 

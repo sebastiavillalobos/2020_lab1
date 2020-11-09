@@ -4,23 +4,28 @@
 
 ;Representacion
 
-; ID Pregunta: Int, incremental
-; Fecha: Representado por un Int dia mes año hora minuto, ej 051120201220 -> 05 Noviembre del año 2020 hora: 12:21
+; ID Pregunta: Int, identificador unico para cada pregunta.
+; Fecha de creación: Representado por un Int , con el formato AñoMesDiaHoraMinuto, ej 202011051221 -> 05 Noviembre del año 2020 hora: 12:21.
 ; Autor: String que representa quien formula la pregunta.
-; Votos Favor: Int que representa la cantidad de votos a favor. de 0 a infinito (+10 cada voto)
-; Votos Contra: Int que representa la cantidad de votos en contra. de 0 a infinito (-10 cada voto)
-; Recompensas: Int a reconpensa por responder la pregunta (de 0 a 50)
-; Estado: int, 1 abierta 0 cerrada.
-; Reportes: Int, cantidad de reportes.
-; Visualisaciones: Int, cada vez que se revisa la pregunta +1
+; Votos Favor: Int que representa la cantidad de votos a favor. de 0 a infinito.
+; Votos Contra: Int que representa la cantidad de votos en contra. de 0 a infinito.
+; Recompensa: Int, representa cuantos puntos se dan por responder la pregunta.
+; Estado: int que representa el estado de la pregunta, 1 para abierto (recibe respuestas) o 0 cerrado (no recibe respuestas).
+; Reportes: Int que representa con un numero la cantidad de reportes negativos en la pregunta.
+; Visualisaciones: Int, que representa con un numero la cantidad de visualisaciones de la pregunta.
+; Etiquetas: Una lista representada en el TDA Etiquetas
+; Respuestas: Una lista representada en el TDA Respuestas
+
+; Ejemplo de una pregunta representada por una lista.
+; (1 202011101930 "Sebastian Villalobos" 14 3 20 1 0 500 "dios existe?" (dios religion extraterrestres) (respuesta1 respuesta2 respuesta3))
 
 
 ;Constructor
 
-(define (crearPregunta id_pregunta fecha autor votosFavor votosContra recompensa estado reportes visualizaciones)
+(define (crearPregunta id_pregunta fecha autor votosFavor votosContra recompensa estado reportes visualizaciones laPregunta etiqueta respuesta)
   (if (and(and(and(and (esIdPregunta id_pregunta) (esFecha fecha)) (and (esAutor autor) (esVoto votosFavor)))(and(and (esVoto votosContra)(esRecompensa recompensa))
     (and(esEstado estado)(esReporte reportes))))(esVisualizacion visualizaciones))
-        (list id_pregunta fecha autor votosFavor votosContra recompensa estado reportes visualizaciones)
+        (list id_pregunta fecha autor votosFavor votosContra recompensa estado reportes visualizaciones laPregunta etiqueta respuesta)
         "No es una pregunta valida"
     )
   )
@@ -31,11 +36,11 @@
     )
 
 (define (esFecha N)
-    (and (number? N) (> N 1000000000)) 
+    (and (number? N) (> N 202000000000)) 
     )
 
 (define (esAutor N)
-    (string? N)
+    (and (not (null? tag))(string? tag))
     )
 
 (define (esVoto N)
@@ -57,6 +62,11 @@
 (define (esVisualizacion N)
     (and (number? N) (> N 0))
     )
+
+(define (esLaPregunta N)
+   (and (not (null? tag))(string? tag))
+    )
+
 
 ;Selectores
 
@@ -98,6 +108,19 @@
     (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr N)))))))))
 )
 
+(define (getLaPregunta N)
+    (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr N))))))))))
+)
+
+(define (getEtiqueta N)
+    (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr N)))))))))))
+)
+
+(define (getRespuesta N)
+    (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr N))))))))))))
+)
+
+
 ;Modificadores
 
 ;Dominio: N= Int o String dependiendo de la funcion. / pregunta= Una lista que representa la pregunta.
@@ -105,49 +128,62 @@
 
 (define (modID N pregunta)
 (crearPregunta N (getFecha pregunta)(getAutor pregunta)(getVotosFavor pregunta)(getVotosContra pregunta)(getRecompensa pregunta)(getEstado pregunta)
-(getReportes pregunta)(getVisualizaciones pregunta))
+(getReportes pregunta)(getVisualizaciones pregunta)(getLaPregunta pregunta)(getEtiqueta pregunta)(getRespuesta pregunta))
 )
 
 (define (modFecha N pregunta)
   (crearPregunta (getIdpregunta pregunta) N (getAutor pregunta)(getVotosFavor pregunta)(getVotosContra pregunta)(getRecompensa pregunta)(getEstado pregunta)
-(getReportes pregunta)(getVisualizaciones pregunta)) 
+(getReportes pregunta)(getVisualizaciones pregunta)(getLaPregunta pregunta)(getEtiqueta pregunta)(getRespuesta pregunta)) 
 )
 
 (define (modAutor N pregunta)
     (crearPregunta (getIdpregunta pregunta) (getFecha pregunta) N (getVotosFavor pregunta)(getVotosContra pregunta)(getRecompensa pregunta)(getEstado pregunta)
-    (getReportes pregunta)(getVisualizaciones pregunta)) 
+    (getReportes pregunta)(getVisualizaciones pregunta)(getLaPregunta pregunta)(getEtiqueta pregunta)(getRespuesta pregunta)) 
 )
 
 (define (modVotosFavor N pregunta)
     (crearPregunta (getIdpregunta pregunta) (getFecha pregunta)(getAutor pregunta) N (getVotosContra pregunta)(getRecompensa pregunta)(getEstado pregunta)
-    (getReportes pregunta)(getVisualizaciones pregunta)) 
+    (getReportes pregunta)(getVisualizaciones pregunta)(getLaPregunta pregunta)(getEtiqueta pregunta)(getRespuesta pregunta)) 
 )
 
 (define (modVotosContra N pregunta)
     (crearPregunta (getIdpregunta pregunta) (getFecha pregunta)(getAutor pregunta)(getVotosFavor pregunta) N (getRecompensa pregunta)(getEstado pregunta)
-    (getReportes pregunta)(getVisualizaciones pregunta)) 
+    (getReportes pregunta)(getVisualizaciones pregunta)(getLaPregunta pregunta)(getEtiqueta pregunta)(getRespuesta pregunta)) 
 )
 
 (define (modRecompensa N pregunta)
     (crearPregunta (getIdpregunta pregunta) (getFecha pregunta)(getAutor pregunta)(getVotosFavor pregunta)(getVotosContra pregunta) N (getEstado pregunta)
-    (getReportes pregunta)(getVisualizaciones pregunta)) 
+    (getReportes pregunta)(getVisualizaciones pregunta)(getLaPregunta pregunta)(getEtiqueta pregunta)(getRespuesta pregunta)) 
 )
 
 (define (modEstado N pregunta)
     (crearPregunta (getIdpregunta pregunta) (getFecha pregunta)(getAutor pregunta)(getVotosFavor pregunta)(getVotosContra pregunta)(getRecompensa pregunta) N 
-    (getReportes pregunta)(getVisualizaciones pregunta)) 
+    (getReportes pregunta)(getVisualizaciones pregunta)(getLaPregunta pregunta)(getEtiqueta pregunta)(getRespuesta pregunta)) 
 )
 
 (define (modReportes N pregunta)
     (crearPregunta (getIdpregunta pregunta) (getFecha pregunta)(getAutor pregunta)(getVotosFavor pregunta)(getVotosContra pregunta)(getRecompensa pregunta)(getEstado pregunta)
-    N (getVisualizaciones pregunta)) 
+    N (getVisualizaciones pregunta)(getLaPregunta pregunta)(getEtiqueta pregunta)(getRespuesta pregunta)) 
 )
 
 (define (modVisualizaciones N pregunta)
     (crearPregunta (getIdpregunta pregunta) (getFecha pregunta)(getAutor pregunta)(getVotosFavor pregunta)(getVotosContra pregunta)(getRecompensa pregunta)(getEstado pregunta)
-    (getReportes pregunta) N) 
+    (getReportes pregunta) N (getLaPregunta pregunta)(getEtiqueta pregunta)(getRespuesta pregunta)) 
 )
 
+(define (modLaPregunta N pregunta)
+    (crearPregunta (getIdpregunta pregunta) (getFecha pregunta)(getAutor pregunta)(getVotosFavor pregunta)(getVotosContra pregunta)(getRecompensa pregunta)(getEstado pregunta)
+    (getReportes pregunta) (getVisualizaciones pregunta) (getLaPregunta pregunta)(getEtiqueta pregunta)(getRespuesta pregunta))
+)
+(define (modEtiqueta N pregunta)
+    (crearPregunta (getIdpregunta pregunta) (getFecha pregunta)(getAutor pregunta)(getVotosFavor pregunta)(getVotosContra pregunta)(getRecompensa pregunta)(getEstado pregunta)
+    (getReportes pregunta) (getVisualizaciones pregunta) (getLaPregunta pregunta) N (getRespuesta pregunta))
+)
+
+(define (modPregunta N pregunta)
+    (crearPregunta (getIdpregunta pregunta) (getFecha pregunta)(getAutor pregunta)(getVotosFavor pregunta)(getVotosContra pregunta)(getRecompensa pregunta)(getEstado pregunta)
+    (getReportes pregunta) (getVisualizaciones pregunta) (getLaPregunta pregunta)(getEtiqueta pregunta) N)
+)
 
 ;Otras funciones
 

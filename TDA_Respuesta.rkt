@@ -1,0 +1,126 @@
+#lang racket
+
+; TDA = Respuesta
+
+;Representacion
+
+; La respuesta está representada por una lista que contiene el id de respuesta, un numero que va a
+
+; ID Respuesta: Int, identificador unico para cada respuesta
+; Fecha de creación: Representado por un Int , con el formato AñoMesDiaHoraMinuto, ej 202011051221 -> 05 Noviembre del año 2020 hora: 12:21.; Autor: String que representa quien formula la pregunta.
+; Votos Favor: Int que representa la cantidad de votos a favor. de 0 a infinito.
+; Votos Contra: Int que representa la cantidad de votos en contra. de 0 a infinito (-10 cada voto)
+; Estado  de Aceptacion: representa si la respuesta es aceptada o no, int, 1 aceptada 0 no aceptada.
+; Reportes de Ofensa: int, que representa la cantidad de veces que ha sido reportada la respuesta.
+; Respuesta: String que representa la respuesta dada a la respuesta.
+
+; Constructor
+
+(define (crearRespuesta id_respuesta fecha autor votosFavor votosContra estado reporte laRespuesta)
+(and(and(and (esIdRespuesta id_respuesta)(esFecha fecha))(and(esAutor autor)(esVoto votosFavor)))(and(and(esVoto votosContra)(esEstado estado))(and (esReporte reporte)(esLaRespuesta laRespuesta))))
+(list id_respuesta fecha autor votosFavor votosContra estado reporte laRespuesta)
+)
+
+; Pertenencia
+
+(define (esIdRespuesta id)
+    (and (number? N) (> N 0))
+    )
+
+(define (esFecha N)
+    (and (number? N) (> N 202000000000)) 
+    )
+
+(define (esAutor N)
+    (and (not (null? N))(string? N))
+    )
+
+(define (esVoto N)
+    (and (number? N) (> N 0))
+    )
+(define (esEstado N)
+(and (number? N) (or (= N 0) (= N 1)))
+)
+
+(define (esReporte N)
+    (and (number? N) (> N 0))
+    )
+
+(define (esLaRespuesta N)
+   (and (not (null? N))(string? N))
+    )
+
+
+; Selectores
+
+(define (getID N)
+    (car N)
+)
+
+(define (getFecha N)
+    (car (cdr N))
+)
+
+(define (getPassword N)
+    (car (cdr (cdr N)))
+)
+
+(define (getAutor N)
+    (car (cdr (cdr (cdr N))))
+)
+
+(define (getVotosFavor N)
+    (car (cdr (cdr (cdr (cdr N)))))
+)
+
+(define (getVotosContra N)
+    (car (cdr (cdr (cdr (cdr (cdr N))))))
+)
+(define (getEstado N)
+    (car (cdr (cdr (cdr (cdr (cdr (cdr N)))))))
+)
+(define (getReporte N)
+    (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr N))))))))
+)
+(define (getLaRespuesta N)
+    (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr N)))))))))
+)
+
+; Modificadores
+
+(crearRespuesta (getID respuesta) (getFecha respuesta) (getAutor respuesta) (getVotosFavor respuesta) (getVotosContra respuesta) (getEstado respuesta) (getReporte respuesta) (getLaRespuesta respuesta))
+
+
+(define (modId N respuesta)
+(crearRespuesta N (getFecha respuesta) (getAutor respuesta) (getVotosFavor respuesta) (getVotosContra respuesta) (getEstado respuesta) (getReporte respuesta) (getLaRespuesta respuesta))
+)
+
+(define (modFecha N respuesta)
+(crearRespuesta (getID respuesta) N (getAutor respuesta) (getVotosFavor respuesta) (getVotosContra respuesta) (getEstado respuesta) (getReporte respuesta) (getLaRespuesta respuesta))
+)
+
+(define (modAutor N respuesta)
+(crearRespuesta (getID respuesta) (getFecha respuesta) N (getVotosFavor respuesta) (getVotosContra respuesta) (getEstado respuesta) (getReporte respuesta) (getLaRespuesta respuesta))
+)
+
+(define (modVotosFavor N respuesta)
+(crearRespuesta (getID respuesta) (getFecha respuesta) (getAutor respuesta) N (getVotosContra respuesta) (getEstado respuesta) (getReporte respuesta) (getLaRespuesta respuesta))
+)
+
+(define (modVotosContra N respuesta)
+(crearRespuesta (getID respuesta) (getFecha respuesta) (getAutor respuesta) (getVotosFavor respuesta) N (getEstado respuesta) (getReporte respuesta) (getLaRespuesta respuesta))
+)
+
+(define (modEstado N respuesta)
+(crearRespuesta (getID respuesta) (getFecha respuesta) (getAutor respuesta) (getVotosFavor respuesta) (getVotosContra respuesta) N (getReporte respuesta) (getLaRespuesta respuesta))
+)
+
+(define (modReporte N respuesta)
+(crearRespuesta (getID respuesta) (getFecha respuesta) (getAutor respuesta) (getVotosFavor respuesta) (getVotosContra respuesta) (getEstado respuesta) N (getLaRespuesta respuesta))
+)
+
+(define (modLaRespuesta N respuesta)
+(crearRespuesta (getID respuesta) (getFecha respuesta) (getAutor respuesta) (getVotosFavor respuesta) (getVotosContra respuesta) (getEstado respuesta) (getReporte respuesta) N)
+)
+
+; Otras funciones
