@@ -14,12 +14,12 @@
 ; Estado  de Aceptacion: representa si la respuesta es aceptada o no, int, 1 aceptada 0 no aceptada.
 ; Reportes de Ofensa: int, que representa la cantidad de veces que ha sido reportada la respuesta.
 ; Respuesta: String que representa la respuesta dada a la respuesta.
-
+; Etiquetas: lista de string con etiquetas relativas a la respuesta.
 ; Constructor
 
-(define (crearRespuesta id_respuesta fecha autor votosFavor votosContra estado reporte laRespuesta)
+(define (crearRespuesta id_respuesta fecha autor votosFavor votosContra estado reporte laRespuesta etiquetas)
 (if (and(and(and (esIdRespuesta3 id_respuesta)(esFecha3 fecha))(and(esAutor3 autor)(esVoto3 votosFavor)))(and(and(esVoto3 votosContra)(esEstado3 estado))(and (esReporte3 reporte)(esLaRespuesta3 laRespuesta))))
-(list id_respuesta fecha autor votosFavor votosContra estado reporte laRespuesta)
+(list id_respuesta fecha autor votosFavor votosContra estado reporte laRespuesta etiquetas) 
 "No es una respuesta valida"
 )
 )
@@ -39,14 +39,14 @@
     )
 
 (define (esVoto3 N)
-    (and (number? N) (> N 0))
+    (number? N)
     )
 (define (esEstado3 N)
 (and (number? N) (or (= N 0) (= N 1)))
 )
 
 (define (esReporte3 N)
-    (and (number? N) (> N 0))
+(number? N)
     )
 
 (define (esLaRespuesta3 N)

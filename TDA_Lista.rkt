@@ -51,12 +51,20 @@
 
 ; Modificadores ###
 
+
+
 ; #####
 ;Funcion que elimina un elemento de la lista en la posicion que uno quiera
 ;Entrada: lista, posicion
 ;Salida: Nueva lista sin el elemento ubicado en la posicion indicada
 (define (eliminarElemento lista posicion)
   (append (Alista lista 1 posicion) (Blista lista 1 posicion))
+  )
+
+
+;Funcion que modifica el elemento en la posicion
+(define (modElemento lista posicion nuevoElemento)
+  (append (Alista lista 1 posicion) (list nuevoElemento) (Blista lista 1 posicion))
   )
 
   ; Funcion que separa las listas 
@@ -115,6 +123,26 @@
    )
   )
 )
+; Funcion que retorna la posicion del elemento buscado en la lista
+
+(define (buscaPosElem lista elemento)
+  (buscaPosElemAUX lista elemento 1)
+)
+
+(define (buscaPosElemAUX lista elemento contador)
+  (if (> (contadorLista lista) 1)
+    (if (equal? (car lista) elemento)
+    contador
+    (buscaPosElemAUX (cdr lista) elemento (+ contador 1))
+    )
+    (if (equal? (car lista) elemento)
+    contador
+    "No existe el usuario"
+   )
+  )
+)
+
+
 
 ;Contador de elementos de la lista
 ;Entrada: lista de elementos

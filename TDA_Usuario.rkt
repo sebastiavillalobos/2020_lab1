@@ -12,7 +12,7 @@
 ;ID Usuario: Int, identificador unico para cada usuario.
 ;Nombre de Usuario: String, nombre del usuario en la app.
 ;Password: String, contraseña del usuario.
-;Reputacion: Int, numero que representa la reputacion del usuario.
+;Reputacion: Int, numero que representa la reputacion del usuario, todo usuario nuevo inicia con 50 puntos de reputación.
 ;Estado: Int que representa si el usuario está activo o no, 1 si está activo, 0 si no lo está.
 
 ;Dominio: Int, String, String, Int, Int
@@ -74,19 +74,25 @@
     (car (cdr (cdr (cdr N))))
 )
 
+(define (getEstado5 N)
+    (car (cdr (cdr (cdr (cdr N)))))
+)
 ; Modificadores
 
 (define (modID2 N usuario)
-(crearUsuario N (getUsuario usuario) (getPassword usuario) (getReputacion usuario))
+(crearUsuario N (getUsuario usuario) (getPassword usuario) (getReputacion usuario)(getEstado5 usuario))
 )
 (define (modUsuario N usuario)
-(crearUsuario (getID usuario) N (getPassword usuario) (getReputacion usuario))
+(crearUsuario (getID usuario) N (getPassword usuario) (getReputacion usuario)(getEstado5 usuario))
 )
 (define (modPassword N usuario)
-(crearUsuario (getID usuario) (getUsuario usuario) N (getReputacion usuario))
+(crearUsuario (getID usuario) (getUsuario usuario) N (getReputacion usuario)(getEstado5 usuario))
 )
 (define (modReputacion N usuario)
-(crearUsuario (getID usuario) (getUsuario usuario) (getPassword usuario) N)
+(crearUsuario (getID usuario) (getUsuario usuario) (getPassword usuario) N (getEstado5 usuario))
 )
 
+(define (modEstado5 N usuario)
+(crearUsuario (getID usuario) (getUsuario usuario) (getPassword usuario) (getReputacion usuario) N)
+)
 ; Otras funciones 

@@ -72,11 +72,11 @@
     )
 
 (define (esVoto1 N)
-    (and (number? N) (> N 0))
+    (number? N)
     )
 
 (define (esRecompensa N)
-    (and (number? N) (and (> N 0) (< N 5000)))       
+    (number? N)      
     )
 
 (define (esEstado N)
@@ -88,7 +88,7 @@
     )
 
 (define (esVisualizacion N)
-    (and (number? N) (> N 0))
+    (number? N)
     )
 
 (define (esLaPregunta N)
