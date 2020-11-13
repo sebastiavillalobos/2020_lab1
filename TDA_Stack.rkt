@@ -1,5 +1,5 @@
 #lang racket
-
+(provide (all-defined-out))
 (require "TDA_Lista.rkt" "TDA_Pregunta.rkt" "TDA_Usuario.rkt" "TDA_Respuesta.rkt" "TDA_Etiqueta.rkt" "StakEjemplo.rkt" )
 
 ; TDA = Stack
@@ -16,14 +16,6 @@
 ;preguntas: lista (TDA pregunta)
 ;usuarios: lista (TDA usuario)
 
-#|
-Ejemplo 
-(crearStack (crearPregunta 12 202011101930 "yop" 123 2 20 1 10 500 "Quien mato a marilin?" (list "dfsf" "sdfsf" "sdfsdf") (list "sdfsdf" "sdfdsf"))
-(crearUsuario 1 "bayron" "password" 50 1))
-
-(crearStack (list (crearPregunta 1 202011101930 "jorge gonzalez" 123 2 20 1 10 500 "Quien mato a marilin?" (list "marilin" "los prisioneros" "asesinato") (list "la prensa" "la radio" "el raton mikey")) (crearPregunta 2 202011101930 "Seba" 123 2 20 1 10 500 "2+2 es 4??" (list "suma" "tonterias" "4") (list "sdfsdf" "sdfdsf")) (crearPregunta 3 202011101930 "Dios" 123 2 20 1 10 500 "Que le pasa a lupita??" (list "lupita" "que le pasa" "que") (list "nose" "bailar")))
-(list (crearUsuario 1 "bayron" "password" 50 0)(crearUsuario 2 "yanira" "1234" 50 0)(crearUsuario 3 "berson" "notengo" 50 0)))
-|#
 
 ; Constructor
 (define (crearStack preguntas usuarios)
@@ -68,7 +60,10 @@ Ejemplo
 (define (getTodasRespuestas stack)
  (listaIguales (getPreguntas stack) 12)
 )
-
+; Retorna la posicion en la lista de respuesta de la respuesta segun idrespuesta
+(define (getPosPregunta stack idrespuesta)
+(buscaPosElem (getTodosIDresp stack) idrespuesta) 
+)
 ; Modificadores
 
 (define (modPreguntas stack preguntas)
@@ -159,7 +154,6 @@ Ejemplo
     "No existe usuario"
     )   
 )
-;#####################
 
 ; (buscaPosElem (getTodosUsuarios stack) username) posicion del usuario en la lista de usuarios
 
@@ -180,9 +174,9 @@ Ejemplo
     )
 )
 
-; Funcion que modifica el estado de un usuario OK
+; Funcion que modifica el estado de un usuario OK, dfespues de realizar un comando. ( 0 )
 (define (cambiarEstadoUsuario stack username)
-    (modEstado5 1 (getElemento (getUsuarios stack) (buscaPosElem (getTodosUsuarios stack) username))) 
+    (modEstado5 0 (getElemento (getUsuarios stack) (buscaPosElem (getTodosUsuarios stack) username))) 
 )
 ; --------------------------------
 
@@ -197,7 +191,7 @@ Ejemplo
 ;#####################
 
 (define (askAux stack user fecha preguntaNueva etiquetasNueva)
-    (append (getPreguntas stack) (list (crearPregunta (nuevoIDpregunta stack) fecha user 0 0 0 1 0 0 preguntaNueva etiquetasNueva "Sin Respuestas")))
+    (append (getPreguntas stack) (list (crearPregunta (nuevoIDpregunta stack) fecha user 0 0 0 1 0 0 preguntaNueva etiquetasNueva (list null))))
 
 )
 
@@ -268,7 +262,7 @@ Ejemplo
 
 ; Funcion que retorna la recompensa de una pregunta en el stak
 (define (getRecompensaPregunta stack id)
-(getReputacion  (getLaPregun stack id))
+(getElemento (getLaPregun stack id) 6)
 )
 
 
@@ -278,7 +272,7 @@ Ejemplo
 )
 
 #|
-(crearStack (list (crearPregunta 1 202011101930 "jorge gonzalez" 123 2 20 1 10 500 "Quien mato a marilin?" (list "marilin" "los prisioneros" "asesinato") (list "la prensa" "la radio" "el raton mikey")) (crearPregunta 2 202011101930 "Seba" 123 2 20 1 10 500 "2+2 es 4??" (list "suma" "tonterias" "4") (list "sdfsdf" "sdfdsf")) (crearPregunta 3 202011101930 "Dios" 123 2 20 1 10 500 "Que le pasa a lupita??" (list "lupita" "que le pasa" "que") (list "nose" "bailar")))
+(crearStack (list (crearPregunta 1 202011101930 "jorge gonzalez" 123 2 20 1 10 500 "Quien mato a marilin?" (list "marilin" "los prisioneros" "asesinato") (crearRespuesta 1 202011101930 "bayron" 0 0 0 0 "laRespuesta" "etiquetas")) (crearPregunta 2 202011101930 "Seba" 123 2 20 1 10 500 "2+2 es 4??" (list "suma" "tonterias" "4") (list "sdfsdf" "sdfdsf")) (crearPregunta 3 202011101930 "Dios" 123 2 20 1 10 500 "Que le pasa a lupita??" (list "lupita" "que le pasa" "que") (list (crearRespuesta 1 202011101930 "bayron" 0 0 0 0 "laRespuesta" "etiquetas")(crearRespuesta 2 202011101930 "sebiuo" 0 0 0 0 "laRespuesta2" "etiquetas")(crearRespuesta 3 202011101930 "jose" 0 0 0 0 "laRespuesta3" "etiquetas"))))
 (list (crearUsuario 1 "bayron" "password" 50 0)(crearUsuario 2 "yanira" "1234" 50 0)(crearUsuario 3 "berson" "notengo" 50 0)))
 |#
 
@@ -334,59 +328,90 @@ Ejemplo
 ; accept OK!
 ;####################################################################################
 
-;Funcion currificada que permite a un usuario con sesion iniciada en lka plataforma aceptar una respuesta a una de sus preguntas.
+;Funcion currificada que permite a un usuario con sesion iniciada en la plataforma aceptar una respuesta a una de sus preguntas.
 ;Dominio:Stack
 ;Recorridoi:Stack
 
-
-;funcion que retorna la pregunta segun su id
-
-
-
-; Solo puede ser modificada por su propio usuario
-
-; Se cambia estado de respuesta
-
-
-; Actualizacion de puntaje
-    ;Asignar puntaje de recompensa a usaurio respuesta
+(define (accept stack user) (lambda (idpregunta)(lambda (idrespuesta)
+;user tiene que ser el mismo que el autor de la pregunta
+(if (equal? (getAutor (getLaPregun stack idpregunta)) user)
+    (crearStack (preguntasRespAceptada stack idpregunta idrespuesta) (modUserRep stack (getAutor3 (getLaRespuest stack idrespuesta idpregunta)) idpregunta))
+    "Usuario no es el autor de la pregunta"
+)
+)))
+;el puntaje se le da al autor de la respuesta, que es un usuario
 
 
 
-
-;(buscaPosElem (getTodosIDresp stack) idrespuesta) -> Me indica la posicion del
-; id respuesta en las respuestas
-;estado pos 6 en respuesta
-
-;(getRespuestas stack idpregunta)  -> obtiene las respuesta (lista) de la pregunta con ese idpregunta
-;Retorna la lista de respuestas segun ID pregunta
-;(getRespuestas stack idpregunta)
-; retorna una lista con todos los id de pregunta
-;(listaIguales (getRespuestas stack idpregunta) 1) 
-; Retorna la posicion de la respuesta en la lista de preguntas segun el di de respuesta
-;(buscaPosElem (listaIguales (getRespuestas stack idpregunta) 1) idrespuesta) 
+;Funcion que retorna la lista de preguntas con la pregunta modificada
+(define (preguntasRespAceptada stack idpregunta idrespuesta)
+(modElemento (getPreguntas stack) idpregunta (preguntaRespAcept stack idpregunta idrespuesta))
+)
 
 
-;Funcion que retorna la respuesta, según ID pregunta y ID respuesta
+;Funcion que retorna la pregunta con las respuestas modificadas
+(define (preguntaRespAcept stack idpregunta idrespuesta)
+(modElemento (getLaPregun stack idpregunta) 12 (modRespuestasAceptada stack idpregunta idrespuesta))
+)
+
+;Funcion que modifique la respuesta aceptada y retorne todas las respuestas de la pregunta
+(define (modRespuestasAceptada stack idpregunta idrespuesta)
+(modElemento (getRespuestas stack idpregunta) (buscaPosElem (listaIguales (getRespuestas stack idpregunta) 1) idrespuesta) (aceptRespuesta stack idpregunta idrespuesta))
+)
+
+
+;Funcion que acepta la respuesta y suma 1 voto
+(define (aceptRespuesta stack idpregunta idrespuesta)
+(modElemento (votoRespuesta stack idpregunta idrespuesta) 6 1) ; Estado aceptado 1
+)
+
+;Funcion que suma 1 voto a la respuesta
+(define (votoRespuesta stack idpregunta idrespuesta)
+(modElemento (getLaRespuest stack idrespuesta idpregunta) 4 (+ (getVotosFavor3 (getLaRespuest stack idrespuesta idpregunta)) 1)) ;Voto + 1
+)
+
+;Funcion que retorna la respuesta, según ID pregunta y ID respuesta OKOKOK
 (define (getLaRespuest stack idrespuesta idpregunta)
 (getElemento (getRespuestas stack idpregunta) (buscaPosElem (listaIguales (getRespuestas stack idpregunta) 1) idrespuesta) )
 )
 
 
-
-
-;Funcion que retorna la respuesta segun id respuesta y idpregunta
-(define (idPreg+idResp stack idpregunta idrespuesta)
-(getElemento (getRespuestas stack idpregunta) idrespuesta)
+; ----- Usuarios
+;Funcion que retorna todo los usuarios, con el usuario modificado OK
+(define (modUserRep stack username idpregunta)
+(modElemento (getUsuarios stack) (buscaPosElem (getTodosUsuarios stack) username) (cambiaRepUsuario stack username idpregunta))
 )
 
-;Funcion que compara si el usuario es el mismo que el autor de la pregunta
-(define (esAutor username stack idpregunta idrespuesta)
-    (if (equal? username ()))
-
+; Funcion que cambia la reputación de un usuario segun recompensa de la pregunta
+; Y retorna el usuario
+(define (cambiaRepUsuario stack username idpregunta)
+    (modReputacion (+ (getReputacion (getElUsuario stack username) ) (getRecompensaPregunta stack idpregunta)) (getElUsuario stack username))
 )
+
+
+
+#|
+
 
 ;(buscaPosElem lista elemento) ; retorna la posicion del elemento en la lista
 ;(getElemento fila m) ;Retornal el elemento segun su posicion
 ;(modElemento lista posicion nuevoElemento) ;Modifica el elemento en la posicion M
 ;(listaIguales lista posicion) ; Hace una lista con el elemento m de las listas
+
+
+(getRespuestas stack idpregunta)  -> obtiene las respuesta (lista) de la pregunta con ese idpregunta
+
+Retorna la lista de respuestas segun ID pregunta
+(getRespuestas stack idpregunta)
+
+ retorna una lista con todos los id de pregunta
+(listaIguales (getRespuestas stack idpregunta) 1) 
+
+ Retorna la posicion de la respuesta en la lista de preguntas segun el di de respuesta
+(buscaPosElem (listaIguales (getRespuestas stack idpregunta) 1) idrespuesta) 
+
+
+(getLaPregun stack idpregunta) ; la pregunta
+(getRespuestas stack idpregunta) ; Las respuestas
+ (buscaPosElem (listaIguales (getRespuestas stack idpregunta) 1) idrespuesta); Posicion de la respuesta modificada
+|#

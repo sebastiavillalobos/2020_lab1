@@ -15,6 +15,8 @@
 ; Reportes de Ofensa: int, que representa la cantidad de veces que ha sido reportada la respuesta.
 ; Respuesta: String que representa la respuesta dada a la respuesta.
 ; Etiquetas: lista de string con etiquetas relativas a la respuesta.
+
+
 ; Constructor
 
 (define (crearRespuesta id_respuesta fecha autor votosFavor votosContra estado reporte laRespuesta etiquetas)
