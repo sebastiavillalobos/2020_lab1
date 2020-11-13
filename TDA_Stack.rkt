@@ -341,22 +341,39 @@ Ejemplo
 
 ;funcion que retorna la pregunta segun su id
 
+
+
+; Solo puede ser modificada por su propio usuario
+
+; Se cambia estado de respuesta
+
+
+; Actualizacion de puntaje
+    ;Asignar puntaje de recompensa a usaurio respuesta
+
+
+
+
 ;(buscaPosElem (getTodosIDresp stack) idrespuesta) -> Me indica la posicion del
 ; id respuesta en las respuestas
 ;estado pos 6 en respuesta
 
-;(getRespuestas stack idpregunta)  -> obtiene las respuesta de la pregunta con ese idpregunta
+;(getRespuestas stack idpregunta)  -> obtiene las respuesta (lista) de la pregunta con ese idpregunta
+;Retorna la lista de respuestas segun ID pregunta
+;(getRespuestas stack idpregunta)
+; retorna una lista con todos los id de pregunta
+;(listaIguales (getRespuestas stack idpregunta) 1) 
+; Retorna la posicion de la respuesta en la lista de preguntas segun el di de respuesta
+;(buscaPosElem (listaIguales (getRespuestas stack idpregunta) 1) idrespuesta) 
 
-;Funcion que retorna la posicion de la respuesta en una pregunta segun idpregunta y idrespuesta
+
+;Funcion que retorna la respuesta, según ID pregunta y ID respuesta
 (define (getLaRespuest stack idrespuesta idpregunta)
-(getRespuestas stack idpregunta)
-
-(getElemento (getRespuestas stack idpregunta) idrespuesta)
+(getElemento (getRespuestas stack idpregunta) (buscaPosElem (listaIguales (getRespuestas stack idpregunta) 1) idrespuesta) )
 )
 
-(define (modEstadoRes stack idrespuesta idpregunta)
 
-)
+
 
 ;Funcion que retorna la respuesta segun id respuesta y idpregunta
 (define (idPreg+idResp stack idpregunta idrespuesta)
@@ -369,6 +386,7 @@ Ejemplo
 
 )
 
-(buscaPosElem lista elemento)
-(getElemento fila m)
-(modElemento lista posicion nuevoElemento)
+;(buscaPosElem lista elemento) ; retorna la posicion del elemento en la lista
+;(getElemento fila m) ;Retornal el elemento segun su posicion
+;(modElemento lista posicion nuevoElemento) ;Modifica el elemento en la posicion M
+;(listaIguales lista posicion) ; Hace una lista con el elemento m de las listas
